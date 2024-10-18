@@ -11,22 +11,22 @@ class Offering:
         return False
 
 
-class Offerings:
-    offerings_catalog = []
+class OfferingCatalog:
+    offerings = []
 
     @staticmethod
-    def isOfferingUnique(location, schedule):
-        for offering in Offerings.offerings_catalog:
+    def is_offering_unique(location, schedule):
+        for offering in OfferingCatalog.offerings:
             if offering.location == location and offering.schedule == schedule:
                 return False
         return True
 
-    def createOffering(location, schedule, lesson_type):
-        if Offerings.isOfferingUnique(location, schedule):
-            Offerings.add(Offering(location, schedule, lesson_type))
+    def create_offering(location, schedule, lesson_type):
+        if OfferingCatalog.is_offering_unique(location, schedule):
+            OfferingCatalog.add(Offering(location, schedule, lesson_type))
             return True
         return False
 
     @staticmethod
     def add(offering):
-        Offerings.offerings_catalog.append(offering)
+        OfferingCatalog.offerings.append(offering)
