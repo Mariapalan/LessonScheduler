@@ -6,4 +6,4 @@ Maria Balanjian 40227451
 Email: maria.balanjian@gmail.com
 
 Omar Ziad 40214980
-Email: Omar.ziad1@outlook.com
+Email: O.ziad@outlook.com
