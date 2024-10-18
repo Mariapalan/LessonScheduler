@@ -73,7 +73,7 @@ class OfferingCatalog:
         OfferingCatalog.__offerings.append(offering)
 
     @staticmethod
-    def get_all_unassignedOfferings():
+    def get_all_unassigned_offerings():
         return [
             offering
             for offering in OfferingCatalog.__offerings
