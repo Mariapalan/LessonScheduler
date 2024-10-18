@@ -1,6 +1,6 @@
-from offerings.offering import Offering
-from offerings.offering import OfferingCatalog
+from offerings.offering import Offering, OfferingCatalog
 from users.admin import Admin
+from offerings.location import Location, Schedule
 
 
 class Console():
@@ -16,9 +16,14 @@ class Console:
        
         print(f"Processing offerings for Admin: {admin.name}")
      
+    def makeNewOffering(self, location: Location, schedule: Schedule, lesson_type: str):
+        new_offering = OfferingCatalog.create_offering(location, schedule, lesson_type)
+        if new_offering:
+            print("New offering created successfully!")
+        else:
+            print("Offering already exists.")
 
-    def makeNewOffering(self,location:Location, schedule: Schedule):
-        pass
+
 
 
     #+makeNewOffering(Location: location, schedule: Schedule)
