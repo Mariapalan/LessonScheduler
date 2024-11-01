@@ -54,8 +54,8 @@ class OfferingCatalog:
     def is_offering_unique(location, schedule):
         for offering in OfferingCatalog.__offerings:
             if (
-                    offering.get_location() == location
-                    and offering.get_schedule() == schedule
+                offering.get_location() == location
+                and offering.get_schedule() == schedule
             ):
                 return False
         return True
@@ -81,7 +81,7 @@ class OfferingCatalog:
         ]
 
     @staticmethod
-    def select_offering(offering_id: str, instructor) -> Optional[Offering]:
+    def select_offering(offering_id: str, instructor: Instructor) -> Optional[Offering]:
         if offering_id in OfferingCatalog.__offerings:
             offering = OfferingCatalog.__offerings[offering_id]
             if offering.assign_instructor(instructor):
