@@ -39,4 +39,9 @@ public class Console {
         System.out.println("Processing offerings for Client: " + client.getName());
     }
      */
+    // Main method for testing
+    public static void main(String[] args) {
+        Console console = new Console();
+
+    }
 }
