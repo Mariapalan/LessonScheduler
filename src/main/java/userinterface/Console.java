@@ -42,6 +42,5 @@ public class Console {
     // Main method for testing
     public static void main(String[] args) {
         Console console = new Console();
-
     }
 }
