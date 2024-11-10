@@ -6,11 +6,12 @@ import offerings.OfferingCatalog;
 import offerings.Schedule;
 import users.Admin;
 
+import java.sql.*;
+
+// TODO: add UI methods to allow user to interact with system
 public class Console {
 
-    // Constructor
     public Console() {
-        // Empty constructor
     }
 
     // Method to process offerings for an admin
@@ -28,19 +29,40 @@ public class Console {
         }
     }
 
-    // Additional methods (commented out) for instructors and clients
-    // Uncomment and implement as needed
-    /*
-    public void processOfferingsInstructor(Instructor instructor) {
-        System.out.println("Processing offerings for Instructor: " + instructor.getName());
-    }
-
-    public void processOfferingsClient(Client client) {
-        System.out.println("Processing offerings for Client: " + client.getName());
-    }
-     */
-    // Main method for testing
     public static void main(String[] args) {
-        Console console = new Console();
+
+        // The SQLite database file location
+        String url = "jdbc:sqlite:sample.db";
+
+        try (Connection conn = DriverManager.getConnection(url)) {
+
+            if (conn != null) {
+                System.out.println("Connection to SQLite has been established.");
+
+                String createTableSQL = "CREATE TABLE IF NOT EXISTS users ("
+                        + "id INTEGER PRIMARY KEY, "
+                        + "name TEXT NOT NULL, "
+                        + "age INTEGER NOT NULL"
+                        + ");";
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.execute(createTableSQL);
+                }
+
+                String insertSQL = "INSERT INTO users (name, age) VALUES ('Alice', 30);";
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.executeUpdate(insertSQL);
+                }
+
+                String selectSQL = "SELECT id, name, age FROM users;";
+                try (Statement stmt = conn.createStatement();
+                     ResultSet rs = stmt.executeQuery(selectSQL)) {
+                    while (rs.next()) {
+                        System.out.println("ID: " + rs.getInt("id") + ", Name: " + rs.getString("name") + ", Age: " + rs.getInt("age"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }
