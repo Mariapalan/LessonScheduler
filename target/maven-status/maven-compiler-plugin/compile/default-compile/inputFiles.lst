@@ -1,0 +1,14 @@
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/lessonmanagement/GroupLesson.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/lessonmanagement/Lesson.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/lessonmanagement/PrivateLesson.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/offerings/Booking.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/offerings/Location.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/offerings/Offering.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/offerings/OfferingCatalog.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/offerings/Schedule.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/userinterface/Console.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/users/Admin.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/users/Client.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/users/Instructor.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/users/Person.java
+/Users/mariabalanjian/repos/LessonScheduler/src/main/java/users/UnderageClient.java
