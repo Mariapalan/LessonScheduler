@@ -2,11 +2,10 @@ package users;
 
 public abstract class Person {
 
-    private String id;
-    private String name;
-    private float phone;
+    protected String id;
+    protected String name;
+    protected float phone;
 
-    // Constructor
     public Person(String id, String name, float phone) {
         this.id = id;
         this.name = name;
