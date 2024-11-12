@@ -1,9 +1,10 @@
+package persistence;
+
+import offerings.Offering;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import offerings.Offering;
 
 public class OfferingDAO {
 
@@ -20,7 +21,7 @@ public class OfferingDAO {
                 + "id INTEGER PRIMARY KEY, "
                 + "location TEXT NOT NULL, "
                 + "description TEXT NOT NULL, "
-                + "is_available BOOLEAN DEFAULT TRUE, "
+                + "is_available BOOLEAN DEFAULT TRUE"
                 + ");";
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createTableSQL);
