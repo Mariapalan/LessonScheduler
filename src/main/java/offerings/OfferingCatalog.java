@@ -20,13 +20,13 @@ public class OfferingCatalog {
     }
 
     // Create a new offering if it is unique
-    public static Offering createOffering(Location location, Schedule schedule, String lessonType) {
+    public static Optional<Offering> createOffering(Location location, Schedule schedule, String lessonType) {
         if (isOfferingUnique(location, schedule)) {
             Offering newOffering = new Offering(location, schedule, lessonType);
             add(newOffering);
-            return newOffering;
+            return Optional.of(newOffering);
         }
-        return null;
+        return Optional.empty();
     }
 
     // Add a new offering to the catalog
