@@ -4,14 +4,20 @@ import offerings.Location;
 import offerings.Offering;
 import offerings.OfferingCatalog;
 import offerings.Schedule;
+import persistence.OfferingDAO;
+import persistence.UserDAO;
 import users.Admin;
 
 import java.sql.*;
 
 // TODO: add UI methods to allow user to interact with system
 public class Console {
+    private final OfferingDAO offeringDAO;
+    private final UserDAO userDAO;
 
-    public Console() {
+    public Console(OfferingDAO offeringDAO, UserDAO userDAO) {
+        this.offeringDAO = offeringDAO;
+        this.userDAO = userDAO;
     }
 
     // Method to process offerings for an admin
