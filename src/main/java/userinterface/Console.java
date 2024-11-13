@@ -22,7 +22,7 @@ public class Console {
         this.userDAO = userDAO;
     }
 
-    // todo: add missing fnuctionality (ex: admin needs to add stuff, user needs to sign up)
+    // todo: add missing functionality (ex: admin needs to add stuff, user needs to sign up)
     public void beginSession() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the application!");
@@ -42,18 +42,21 @@ public class Console {
                     String adminId = scanner.nextLine();
                     Optional<Admin> adminOpt = userDAO.getAdminById(adminId);
                     adminOpt.ifPresentOrElse(this::processOfferingsAdmin, () -> System.out.println("Admin not found"));
+                    // todo: add options to process offerings
                 }
                 case "2" -> {
                     System.out.print("Enter Instructor ID: ");
                     String instructorId = scanner.nextLine();
                     Optional<Instructor> instructorOpt = userDAO.getInstructorById(instructorId);
                     instructorOpt.ifPresentOrElse(this::processOfferingsInstructor, () -> System.out.println("Instructor not found"));
+                    // todo: add options to process bookings
                 }
                 case "3" -> {
                     System.out.print("Enter Client ID: ");
                     String clientId = scanner.nextLine();
                     Optional<Client> clientOpt = userDAO.getClientById(clientId);
                     clientOpt.ifPresentOrElse(this::processOfferingsClient, () -> System.out.println("Client not found"));
+                    // todo: add options to process bookings
                 }
                 case "4" -> {
                     System.out.println("Goodbye!");
