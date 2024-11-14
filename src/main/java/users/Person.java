@@ -4,9 +4,9 @@ public abstract class Person {
 
     protected String id;
     protected String name;
-    protected float phone;
+    protected String phone;
 
-    public Person(String id, String name, float phone) {
+    public Person(String id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
@@ -29,11 +29,11 @@ public abstract class Person {
         this.name = name;
     }
 
-    public float getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(float phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

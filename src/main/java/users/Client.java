@@ -4,7 +4,7 @@ public class Client extends Person {
 
     private int age;
 
-    public Client(String id, String name, float phone, int age) {
+    public Client(String id, String name, String phone, int age) {
         super(id, name, phone);
         this.age = age;
     }

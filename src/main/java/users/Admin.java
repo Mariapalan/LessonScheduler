@@ -2,10 +2,10 @@ package users;
 
 import offerings.Offering;
 
-public class Admin extends Person{
+public class Admin extends Person {
 
 
-    public Admin(String id, String name, float phone){
+    public Admin(String id, String name, String phone) {
         super(id, name, phone);
     }
 
