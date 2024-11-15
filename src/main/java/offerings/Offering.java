@@ -1,58 +1,73 @@
 package offerings;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import users.Client;
 import users.Instructor;
 
 public class Offering {
 
-    private boolean isAvailable;
-    private Location location;
-    private Schedule schedule;
-    private String lessonType;
+    private boolean isAvailableToPublic;
+    private boolean hasInstructor;
+    private final Location location;
+    private final Schedule schedule;
+    private final String lessonType;
     private Instructor instructor;
-    private String id;
+    private final int id;
+    private final List<Client> clients;
+    private int size = 3; // placeholder value
 
-    // Constructor
     public Offering(Location location, Schedule schedule, String lessonType) {
-        this.isAvailable = false;
+        this(generateUniqueOfferingId(), location, schedule, lessonType, false, null);
+    }
+
+    public Offering(int offeringId, Location location, Schedule schedule, String lessonType, boolean isAvailableToPublic, Instructor instructor) {
+        this.clients = new ArrayList<>();
+        this.isAvailableToPublic = isAvailableToPublic;
         this.location = location;
         this.schedule = schedule;
         this.lessonType = lessonType;
-        this.instructor = null;
-        this.id = generateUniqueOfferingId();
+        this.id = offeringId;
+        hasInstructor = instructor != null;
+        this.instructor = instructor;
     }
 
-    // Method to update availability
     public void updateAvailability(boolean availability) {
-        this.isAvailable = availability;
+        this.isAvailableToPublic = availability;
     }
 
-    // Method to check equality based on location and schedule
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof Offering) {
-            Offering otherOffering = (Offering) other;
-            return this.location.equals(otherOffering.location)
-                    && this.schedule.equals(otherOffering.schedule);
-        }
-        return false;
+    public boolean hasInstructor() {
+        return hasInstructor;
     }
 
-    // Getter for id
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     // Method to check availability
     public boolean checkAvailable() {
-        return isAvailable;
+        return isAvailableToPublic;
     }
 
-    // Method to assign an instructor
     public boolean assignInstructor(Instructor instructor) {
-        if (checkAvailable()) {
+        if (!hasInstructor) {
             this.instructor = instructor;
-            this.isAvailable = false;
+            this.hasInstructor = true;
+            this.isAvailableToPublic = true;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean registerClient(Client client) {
+        if (!clients.contains(client) && clients.size() < size) {
+            clients.add(client);
+            if (clients.size() >= size) {
+                isAvailableToPublic = false;
+            }
+
             return true;
         }
         return false;
@@ -78,14 +93,31 @@ public class Offering {
         return lessonType;
     }
 
-    // Override hashCode to use id
+    public boolean isAvailableToPublic() {
+        return isAvailableToPublic;
+    }
+
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return Integer.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Offering) {
+            Offering otherOffering = (Offering) other;
+            return this.location.equals(otherOffering.location)
+                    && this.schedule.equals(otherOffering.schedule);
+        }
+        return false;
+    }
+
+    public String toString() {
+        return "Offering for Lesson: " + lessonType + " at Location: " + location + ", at time: " + schedule;
     }
 
     // Generate a unique offering ID
-    private static String generateUniqueOfferingId() {
-        return UUID.randomUUID().toString();
+    private static int generateUniqueOfferingId() {
+        return UUID.randomUUID().toString().hashCode();
     }
 }
