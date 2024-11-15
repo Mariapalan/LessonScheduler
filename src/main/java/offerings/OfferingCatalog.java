@@ -10,7 +10,7 @@ public class OfferingCatalog {
     private static List<Offering> offerings = new ArrayList<>();
 
     // Check if offering is unique based on location and schedule
-    public static boolean isOfferingUnique(Location location, Schedule schedule) {
+    public boolean isOfferingUnique(Location location, Schedule schedule) {
         for (Offering offering : offerings) {
             if (offering.getLocation().equals(location) && offering.getSchedule().equals(schedule)) {
                 return false;
@@ -48,8 +48,8 @@ public class OfferingCatalog {
     // Select an offering by ID and assign an instructor
     public static Optional<Offering> selectOffering(String offeringId, Instructor instructor) {
         for (Offering offering : offerings) {
-            if (offering.getId().equals(offeringId)) {
-                if (offering.assignInstructor(instructor)) {
+            if (offering.getId() == offeringId) {
+                if (offering.assignInstructor(instructor) && OfferingDAO.assignInstructorToOffering(offeringId, instructor.getId())) {
                     return Optional.of(offering);
                 }
             }

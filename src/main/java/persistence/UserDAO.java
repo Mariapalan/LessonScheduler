@@ -50,11 +50,20 @@ public class UserDAO {
                         age INTEGER NOT NULL
                     );
                 """;
-
-        try (PreparedStatement adminStmt = connection.prepareStatement(createAdminTableSQL); PreparedStatement clientStmt = connection.prepareStatement(createClientTableSQL)) {
+        String createInstructorTableSQL = """
+                    CREATE TABLE IF NOT EXISTS  instructors (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        phone TEXT NOT NULL,
+                        age INTEGER NOT NULL,
+                        specialization TEXT
+                    );
+                """;
+        try (PreparedStatement adminStmt = connection.prepareStatement(createAdminTableSQL); PreparedStatement clientStmt = connection.prepareStatement(createClientTableSQL); PreparedStatement instrStmt = connection.prepareStatement(createInstructorTableSQL)) {
             adminStmt.execute();
             clientStmt.execute();
-            System.out.println("Tables for Admins and Clients are ready.");
+            instrStmt.execute();
+            System.out.println("Tables for Admins, Instructors, and Clients are ready.");
         } catch (SQLException e) {
             System.err.println("Error creating tables: " + e.getMessage());
         }
@@ -73,7 +82,6 @@ public class UserDAO {
         }
     }
 
-    // Insert a Client into the database
     public void insertClient(Client client) {
         String insertSQL = "INSERT INTO clients (name, phone, age) VALUES (?, ?, ?)";
 
@@ -86,6 +94,26 @@ public class UserDAO {
         } catch (SQLException e) {
             System.err.println("Error inserting client: " + e.getMessage());
         }
+    }
+
+    public Optional<Client> getClientById(int clientId) {
+        String selectSQL = "SELECT id, name, phone, age FROM clients WHERE id = ?;";
+
+        try (PreparedStatement stmt = connection.prepareStatement(selectSQL)) {
+            stmt.setInt(1, clientId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                int age = rs.getInt("age");
+                return Optional.of(new Client(id, name, phone, age));
+            }
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+        return Optional.empty();
     }
 
     public Optional<Admin> getAdminById(int adminID) {
@@ -106,7 +134,22 @@ public class UserDAO {
         return Optional.empty();
     }
 
-    public Optional<Instructor> getInstructorById(String instructorID) {
+    public Optional<Instructor> getInstructorById(int instructorID) {
+        String selectSQL = "SELECT id, name, phone, specialization FROM instructors WHERE id = ?;";
+        try (PreparedStatement stmt = connection.prepareStatement(selectSQL)) {
+            stmt.setInt(1, instructorID);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String phone = rs.getString("phone");
+                String specialization = rs.getString("specialization");
+                return Optional.of(new Instructor(id, name, phone, specialization, "Montreal, QC"));
+            }
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e.getMessage());
+        }
         return Optional.empty();
     }
 

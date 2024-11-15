@@ -6,7 +6,7 @@ public class Instructor extends Person {
     private String city;
 
     // Constructor
-    public Instructor(String id, String name, String phone, String specialization, String city) {
+    public Instructor(int id, String name, String phone, String specialization, String city) {
         super(id, name, phone);
         this.specialization = specialization;
         this.city = city;

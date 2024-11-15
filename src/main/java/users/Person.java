@@ -2,22 +2,22 @@ package users;
 
 public abstract class Person {
 
-    protected String id;
+    protected int id;
     protected String name;
     protected String phone;
 
-    public Person(String id, String name, String phone) {
+    public Person(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
     }
 
     // Getters and setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
