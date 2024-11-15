@@ -5,7 +5,7 @@ public class UnderageClient extends Client {
     private Client guardian;
 
     // Constructor
-    public UnderageClient(String id, String name, float phone, int age, Client guardian) {
+    public UnderageClient(int id, String name, String phone, int age, Client guardian) {
         super(id, name, phone, age);
         this.guardian = guardian;
     }
