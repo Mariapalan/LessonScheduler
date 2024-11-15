@@ -34,4 +34,11 @@ public class Schedule {
     public String toString() {
         return timeslot.toString();
     }
+
+    public boolean equals(Object other) {
+        if (other instanceof Schedule) {
+            return timeslot.equals(((Schedule) other).timeslot);
+        }
+        return false;
+    }
 }
