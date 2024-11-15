@@ -1,6 +1,6 @@
 package lessonmanagement;
 
-public class Lesson {
+public abstract class Lesson {
 
     private String lessonType;
 
