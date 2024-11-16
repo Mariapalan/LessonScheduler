@@ -1,11 +1,9 @@
 package offerings;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import users.Client;
 import users.Instructor;
+
+import java.util.*;
 
 public class Offering {
 
@@ -16,15 +14,29 @@ public class Offering {
     private final String lessonType;
     private Instructor instructor;
     private final int id;
-    private final List<Client> clients;
-    private int size = 3; // placeholder value
+    private final List<Client> registeredClients;
+    private int max_size = 3; // placeholder value
+    private Set<Integer> registeredClientIds;
 
     public Offering(Location location, Schedule schedule, String lessonType) {
         this(generateUniqueOfferingId(), location, schedule, lessonType, false, null);
     }
 
+    public Offering(int offeringId, Location location, Schedule schedule, String lessonType, boolean isAvailableToPublic, Instructor instructor, int max_size, List<Client> registeredClients, Set<Integer> registeredClientIds) {
+        this.registeredClients = new ArrayList<>(registeredClients);
+        this.isAvailableToPublic = isAvailableToPublic;
+        this.location = location;
+        this.schedule = schedule;
+        this.lessonType = lessonType;
+        this.id = offeringId;
+        hasInstructor = instructor != null;
+        this.instructor = instructor;
+        this.max_size = max_size;
+        this.registeredClientIds = new HashSet<>(registeredClientIds);
+    }
+
     public Offering(int offeringId, Location location, Schedule schedule, String lessonType, boolean isAvailableToPublic, Instructor instructor) {
-        this.clients = new ArrayList<>();
+        this.registeredClients = new ArrayList<>();
         this.isAvailableToPublic = isAvailableToPublic;
         this.location = location;
         this.schedule = schedule;
@@ -62,12 +74,11 @@ public class Offering {
     }
 
     public boolean registerClient(Client client) {
-        if (!clients.contains(client) && clients.size() < size) {
-            clients.add(client);
-            if (clients.size() >= size) {
+        if (!registeredClients.contains(client) && registeredClients.size() <= max_size) {
+            registeredClients.add(client);
+            if (registeredClients.size() >= max_size) {
                 isAvailableToPublic = false;
             }
-
             return true;
         }
         return false;
@@ -119,5 +130,17 @@ public class Offering {
     // Generate a unique offering ID
     private static int generateUniqueOfferingId() {
         return UUID.randomUUID().toString().hashCode();
+    }
+
+    public int getMaxSize() {
+        return max_size;
+    }
+
+    public Set<Integer> getClientIdSet() {
+        return registeredClientIds;
+    }
+
+    public List<Client> getClients() {
+        return registeredClients;
     }
 }

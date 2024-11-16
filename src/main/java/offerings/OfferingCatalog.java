@@ -1,20 +1,20 @@
 package offerings;
 
+import persistence.OfferingDAO;
+import users.Client;
+import users.Instructor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import persistence.OfferingDAO;
-import users.Client;
-import users.Instructor;
 
 public class OfferingCatalog {
 
     private List<Offering> offerings;
 
     public OfferingCatalog(OfferingDAO offeringDAO) {
-        offerings = new ArrayList<>(offeringDAO.getAllOfferings());
+        offerings = new ArrayList<>(OfferingDAO.getAllOfferings());
     }
 
     // Check if offering is unique based on location and schedule
@@ -67,7 +67,7 @@ public class OfferingCatalog {
     public boolean selectOffering(int offeringId, Client client) {
         for (Offering offering : offerings) {
             if (offering.getId() == offeringId) {
-                if (offering.registerClient(client)) {
+                if (offering.registerClient(client) && OfferingDAO.addClientToOffering(offeringId, client.getId())) {
                     return true;
                 }
             }
