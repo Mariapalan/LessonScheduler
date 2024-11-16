@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class Console {
+
     private final UserDAO userDAO;
     private final OfferingDAO offeringDAO;
     private final OfferingCatalog offeringCatalog;
@@ -56,7 +57,6 @@ public class Console {
                         scanner.nextLine();
                         Optional<Instructor> instructorOpt = userDAO.getInstructorById(instructorId);
                         instructorOpt.ifPresentOrElse(instructor -> processOfferingsInstructor(instructor, scanner), () -> System.out.println("Instructor not found"));
-                        // todo: add options to process bookings
                     }
                     case "3" -> {
                         System.out.print("Enter Client ID: ");
@@ -69,7 +69,8 @@ public class Console {
                         System.out.println("Goodbye!");
                         System.exit(0);
                     }
-                    default -> System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
+                    default ->
+                        System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
                 }
             }
         }
@@ -107,8 +108,8 @@ public class Console {
         }
 
         System.out.println("\nAvailable unassigned offerings:\n");
-        unassignedOfferings.forEach(offering ->
-                System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule())
+        unassignedOfferings.forEach(offering
+                -> System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule())
         );
 
         System.out.print("Enter the ID of the offering you want to select: ");
@@ -134,8 +135,13 @@ public class Console {
         }
 
         System.out.println("Available offerings:");
-        publicOfferings.forEach(offering ->
-                System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule())
+        publicOfferings.forEach(offering
+                -> {
+            if (offering.getClientIdSet().contains(client.getId())) {
+                System.out.println("[Already Registered] ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule());
+            }
+            System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule());
+        }
         );
 
         System.out.print("Enter the ID of the offering you want to select: ");
@@ -145,19 +151,15 @@ public class Console {
         if (offeringCatalog.selectOffering(selectedId, client)) {
             System.out.println("Offering successfully assigned to " + client.getName());
         } else {
-            System.out.println("Invalid offering ID or the offering has already been assigned.");
+            System.out.println("Invalid offering ID or the offering has already reached maximum capacity.");
         }
     }
 
     public static void main(String[] args) {
         String dbName = "sample.db";
-        // todo: create dummy admin
-        // todo: create dummy instructor
-        // todo: create dummy client
 
         UserDAO userDAO = new UserDAO(dbName);
         OfferingDAO offeringDAO = new OfferingDAO(dbName, userDAO);
-        offeringDAO.populateOfferings();
 
         Console console = new Console(userDAO, offeringDAO);
         console.beginSession();
