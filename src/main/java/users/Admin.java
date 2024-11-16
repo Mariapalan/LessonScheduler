@@ -2,15 +2,11 @@ package users;
 
 import offerings.Offering;
 
-public class Admin {
+public class Admin extends Person {
 
-    private String name;
-    private String id;
 
-    // Constructor
-    public Admin(String id, String name) {
-        this.id = id;
-        this.name = name;
+    public Admin(int id, String name, String phone) {
+        super(id, name, phone);
     }
 
     // Getter for name

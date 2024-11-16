@@ -1,16 +1,24 @@
 package offerings;
 
+import persistence.OfferingDAO;
+import users.Client;
+import users.Instructor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import users.Instructor;
+import java.util.stream.Collectors;
 
 public class OfferingCatalog {
 
-    private static List<Offering> offerings = new ArrayList<>();
+    private List<Offering> offerings;
+
+    public OfferingCatalog(OfferingDAO offeringDAO) {
+        offerings = new ArrayList<>(OfferingDAO.getAllOfferings());
+    }
 
     // Check if offering is unique based on location and schedule
-    public static boolean isOfferingUnique(Location location, Schedule schedule) {
+    public boolean isOfferingUnique(Location location, Schedule schedule) {
         for (Offering offering : offerings) {
             if (offering.getLocation().equals(location) && offering.getSchedule().equals(schedule)) {
                 return false;
@@ -20,40 +28,50 @@ public class OfferingCatalog {
     }
 
     // Create a new offering if it is unique
-    public static Offering createOffering(Location location, Schedule schedule, String lessonType) {
+    public Optional<Offering> createUniqueOffering(Location location, Schedule schedule, String lessonType) {
         if (isOfferingUnique(location, schedule)) {
             Offering newOffering = new Offering(location, schedule, lessonType);
             add(newOffering);
-            return newOffering;
+            return Optional.of(newOffering);
         }
-        return null;
+        return Optional.empty();
     }
 
-    // Add a new offering to the catalog
-    public static void add(Offering offering) {
-        offerings.add(offering);
+    // Add a new offering to the catalog and store in DB
+    public void add(Offering offering) {
+        if (isOfferingUnique(offering.getLocation(), offering.getSchedule()) && !offerings.contains(offering) && OfferingDAO.storeOffering(offering)) {
+            offerings.add(offering);
+        }
     }
 
-    // Get all unassigned offerings
-    public static List<Offering> getAllUnassignedOfferings() {
-        List<Offering> unassignedOfferings = new ArrayList<>();
-        for (Offering offering : offerings) {
-            if (offering.getInstructor() == null) {
-                unassignedOfferings.add(offering);
-            }
-        }
-        return unassignedOfferings;
+    public List<Offering> getAllUnassignedOfferings() {
+        return offerings.stream().filter(offering -> !offering.hasInstructor()).collect(Collectors.toList());
+    }
+
+    public List<Offering> getAllPublicOfferings() {
+        return offerings.stream().filter(Offering::isAvailableToPublic).collect(Collectors.toList());
     }
 
     // Select an offering by ID and assign an instructor
-    public static Optional<Offering> selectOffering(String offeringId, Instructor instructor) {
+    public Optional<Offering> selectOffering(int offeringId, Instructor instructor) {
         for (Offering offering : offerings) {
-            if (offering.getId().equals(offeringId)) {
-                if (offering.assignInstructor(instructor)) {
+            if (offering.getId() == offeringId) {
+                if (offering.assignInstructor(instructor) && OfferingDAO.assignInstructorToOffering(offeringId, instructor.getId())) {
                     return Optional.of(offering);
                 }
             }
         }
         return Optional.empty();
+    }
+
+    public boolean selectOffering(int offeringId, Client client) {
+        for (Offering offering : offerings) {
+            if (offering.getId() == offeringId) {
+                if (offering.registerClient(client) && OfferingDAO.addClientToOffering(offeringId, client.getId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

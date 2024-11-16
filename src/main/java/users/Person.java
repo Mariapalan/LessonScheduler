@@ -2,23 +2,22 @@ package users;
 
 public abstract class Person {
 
-    private String id;
-    private String name;
-    private float phone;
+    protected int id;
+    protected String name;
+    protected String phone;
 
-    // Constructor
-    public Person(String id, String name, float phone) {
+    public Person(int id, String name, String phone) {
         this.id = id;
         this.name = name;
         this.phone = phone;
     }
 
     // Getters and setters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -30,11 +29,11 @@ public abstract class Person {
         this.name = name;
     }
 
-    public float getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(float phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

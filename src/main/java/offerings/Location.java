@@ -43,4 +43,26 @@ public class Location {
     public void setProvince(String province) {
         this.province = province;
     }
+
+    public static Location fromString(String addressString) throws IllegalArgumentException {
+        String[] parts = addressString.split(",\s*");
+
+        if (parts.length != 3) {
+            throw new IllegalArgumentException("Invalid address format. Expected: 'address, city, province'");
+        }
+
+        String address = parts[0].trim();
+        String city = parts[1].trim();
+        String province = parts[2].trim();
+
+        return new Location(address, city, province);
+    }
+
+    @Override
+    public boolean equals(Object location) {
+        if (location instanceof Location) {
+            return this.fullAddress().equals(((Location) location).fullAddress());
+        }
+        return false;
+    }
 }
