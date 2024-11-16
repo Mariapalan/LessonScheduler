@@ -69,8 +69,7 @@ public class Console {
                         System.out.println("Goodbye!");
                         System.exit(0);
                     }
-                    default ->
-                        System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
+                    default -> System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
                 }
             }
         }
@@ -109,7 +108,7 @@ public class Console {
 
         System.out.println("\nAvailable unassigned offerings:\n");
         unassignedOfferings.forEach(offering
-                -> System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule())
+                -> System.out.println("ID: " + offering.getId() + ", Lesson: " + offering.getLessonType() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule())
         );
 
         System.out.print("Enter the ID of the offering you want to select: ");
@@ -136,12 +135,12 @@ public class Console {
 
         System.out.println("Available offerings:");
         publicOfferings.forEach(offering
-                -> {
-            if (offering.getClientIdSet().contains(client.getId())) {
-                System.out.println("[Already Registered] ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule());
-            }
-            System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule());
-        }
+                        -> {
+                    if (offering.getClientIdSet().contains(client.getId())) {
+                        System.out.println("[Already Registered] ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule());
+                    }
+                    System.out.println("ID: " + offering.getId() + ", Location: " + offering.getLocation() + ", Schedule: " + offering.getSchedule());
+                }
         );
 
         System.out.print("Enter the ID of the offering you want to select: ");
